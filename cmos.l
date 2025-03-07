@@ -9,7 +9,7 @@
 
 /* Ignore comments and whitespace */
 "//".*                             { /* ignore C++ style comments */ }
-"/*"([^*]|\*+[^*/])*\*+\/           { /* ignore C style comments */ }
+"/*"([^*]|\*+)*"*/"            { /* ignore C style comments */ }
 [ \t\n]+                           { /* ignore whitespace */ }
 
 /* Keywords */
@@ -50,8 +50,8 @@
 [0-9]+(\.[0-9]+)?                  { printf("202 "); }
 
 /* String literals and character constants */
-\"([^\\\n]|(\\.))*?\"              { printf("203 "); }
-\'([^\\\n]|(\\.))*?\'              { printf("204 "); }
+\"([^\\\n]|(\\.))*\"              { printf("203 "); }
+\'([^\\\n]|(\\.))*\'              { printf("204 "); }
 
 /* Identifiers (map all identifiers to a generic token) */
 [a-zA-Z_][a-zA-Z0-9_]*             { printf("200 "); }

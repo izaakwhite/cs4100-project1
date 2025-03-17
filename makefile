@@ -2,7 +2,8 @@
 
 CC = g++
 LEX = flex
-CFLAGS = -Wall -O2 -std=c++11
+CFLAGS = -std=c++17
+LFLAGS = -lfl
 TARGET = cmos
 
 all: $(TARGET)
@@ -13,7 +14,7 @@ lex.yy.c: cmos.l
 
 # Compile the executable from lex.yy.c and cmos.cpp.
 $(TARGET): lex.yy.c cmos.cpp
-	$(CC) $(CFLAGS) -o $(TARGET) lex.yy.c cmos.cpp
+	$(CC) $(CFLAGS) -o $(TARGET) lex.yy.c cmos.cpp $(LFLAGS)
 
 # Clean up generated files.
 clean:

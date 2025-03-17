@@ -131,7 +131,7 @@ int main() {
     });
 
     // Write the report file.
-    std::ofstream report("report.txt");
+    std::ofstream report("PlagarismReport.txt");
     if (!report) {
         std::cerr << "Failed to open report file for writing.\n";
         return 1;
@@ -141,7 +141,7 @@ int main() {
     for (const auto &sim : similarities) {
         report << sim.fileA << " and " << sim.fileB << ": " << sim.score << "\n";
     }
-    std::cout << "Report generated: report.txt\n";
+    std::cout << "Report generated: PlagarismReport.txt\n";
     
     return 0;
 }

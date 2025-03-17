@@ -3,24 +3,22 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <set>
 #include <unordered_set>
 #include <algorithm>
-#include <filesystem>
 #include <functional>
 #include <cctype>
 
-namespace fs = std::filesystem;
+using namespace std;
 
-// --- Parameters (tweak these if you need) ---
+// --- Parameters (tweak these if needed) ---
 const int K = 4; // k-mer length
 const int W = 5; // window size for winnowing
 
 // --- Helper functions ---
 
 // Generate overlapping k-mers from a token string.
-std::vector<std::string> getKmers(const std::string &tokens, int k) {
-    std::vector<std::string> kmers;
+vector<string> getKmers(const string &tokens, int k) {
+    vector<string> kmers;
     if (tokens.size() < static_cast<size_t>(k))
         return kmers;
     for (size_t i = 0; i <= tokens.size() - k; i++) {
@@ -30,15 +28,15 @@ std::vector<std::string> getKmers(const std::string &tokens, int k) {
 }
 
 // Simple hash function using std::hash.
-size_t hashKmer(const std::string &kmer) {
-    static std::hash<std::string> hasher;
+size_t hashKmer(const string &kmer) {
+    static hash<string> hasher;
     return hasher(kmer);
 }
 
 // Compute fingerprints using a sliding window (winnowing).
 // For each window of W hashed k-mers, choose the minimum hash value.
-std::vector<size_t> computeFingerprints(const std::vector<size_t>& hashes, int w) {
-    std::vector<size_t> fingerprints;
+vector<size_t> computeFingerprints(const vector<size_t>& hashes, int w) {
+    vector<size_t> fingerprints;
     if (hashes.size() < static_cast<size_t>(w))
         return fingerprints;
     for (size_t i = 0; i <= hashes.size() - w; i++) {
@@ -54,9 +52,9 @@ std::vector<size_t> computeFingerprints(const std::vector<size_t>& hashes, int w
 }
 
 // Compute Jaccard similarity between two fingerprint sets.
-double computeSimilarity(const std::vector<size_t>& fp1, const std::vector<size_t>& fp2) {
-    std::unordered_set<size_t> set1(fp1.begin(), fp1.end());
-    std::unordered_set<size_t> set2(fp2.begin(), fp2.end());
+double computeSimilarity(const vector<size_t>& fp1, const vector<size_t>& fp2) {
+    unordered_set<size_t> set1(fp1.begin(), fp1.end());
+    unordered_set<size_t> set2(fp2.begin(), fp2.end());
     
     size_t intersectionCount = 0;
     for (auto val : set1) {
@@ -65,75 +63,69 @@ double computeSimilarity(const std::vector<size_t>& fp1, const std::vector<size_
         }
     }
     size_t unionCount = set1.size() + set2.size() - intersectionCount;
-    if (unionCount == 0) return 0.0;
+    if (unionCount == 0)
+        return 0.0;
     return static_cast<double>(intersectionCount) / unionCount;
 }
 
 // Structure to store submission fingerprints.
 struct Submission {
-    std::string filename;
-    std::vector<size_t> fingerprints;
+    string filename;
+    vector<size_t> fingerprints;
 };
 
 int main() {
-    std::vector<Submission> submissions;
-    std::string directory = "Examples";
-
-    // Process each .c file in the Examples directory.
-    for (const auto& entry : fs::directory_iterator(directory)) {
-        if (entry.path().extension() == ".c") {
-            std::ifstream infile(entry.path());
-            if (!infile) {
-                std::cerr << "Failed to open file: " << entry.path() << "\n";
-                continue;
-            }
-            std::stringstream buffer;
-            buffer << infile.rdbuf();
-            std::string tokenString = buffer.str();
-
-            // Remove all whitespace so the token string is contiguous.
-            tokenString.erase(std::remove_if(tokenString.begin(), tokenString.end(),
-                                             [](unsigned char c){ return std::isspace(c); }),
-                              tokenString.end());
-
-            // Break the token string into overlapping k-mers.
-            std::vector<std::string> kmers = getKmers(tokenString, K);
-
-            // Hash each k-mer.
-            std::vector<size_t> hashedKmers;
-            for (const auto &kmer : kmers) {
-                hashedKmers.push_back(hashKmer(kmer));
-            }
-
-            // Compute fingerprints via winnowing.
-            std::vector<size_t> fingerprints = computeFingerprints(hashedKmers, W);
-            submissions.push_back({entry.path().filename().string(), fingerprints});
+    vector<Submission> submissions;
+    string line;
+    
+    // Read tokens from standard input.
+    // Each line: "<filename> <tokenString>"
+    while (getline(cin, line)) {
+        if (line.empty())
+            continue;
+        istringstream iss(line);
+        string filename, tokenString;
+        if (!(iss >> filename >> tokenString))
+            continue;
+        
+        // The token string is a contiguous string of tokens (e.g., "001002001002003033...").
+        // Break the token string into overlapping k-mers.
+        vector<string> kmers = getKmers(tokenString, K);
+        
+        // Hash each k-mer.
+        vector<size_t> hashedKmers;
+        for (const auto &kmer : kmers) {
+            hashedKmers.push_back(hashKmer(kmer));
         }
+        
+        // Compute fingerprints via winnowing.
+        vector<size_t> fingerprints = computeFingerprints(hashedKmers, W);
+        submissions.push_back({ filename, fingerprints });
     }
-
+    
     // Compute pairwise similarities.
     struct Similarity {
-        std::string fileA;
-        std::string fileB;
+        string fileA;
+        string fileB;
         double score;
     };
-    std::vector<Similarity> similarities;
+    vector<Similarity> similarities;
     for (size_t i = 0; i < submissions.size(); i++) {
         for (size_t j = i + 1; j < submissions.size(); j++) {
             double sim = computeSimilarity(submissions[i].fingerprints, submissions[j].fingerprints);
-            similarities.push_back({submissions[i].filename, submissions[j].filename, sim});
+            similarities.push_back({ submissions[i].filename, submissions[j].filename, sim });
         }
     }
-
+    
     // Sort similarities in descending order.
-    std::sort(similarities.begin(), similarities.end(), [](const Similarity &a, const Similarity &b) {
+    sort(similarities.begin(), similarities.end(), [](const Similarity &a, const Similarity &b) {
         return a.score > b.score;
     });
-
+    
     // Write the report file.
-    std::ofstream report("PlagarismReport.txt");
+    ofstream report("PlagarismReport.txt");
     if (!report) {
-        std::cerr << "Failed to open report file for writing.\n";
+        cerr << "Failed to open report file for writing.\n";
         return 1;
     }
     report << "Similarity Report\n";
@@ -141,7 +133,7 @@ int main() {
     for (const auto &sim : similarities) {
         report << sim.fileA << " and " << sim.fileB << ": " << sim.score << "\n";
     }
-    std::cout << "Report generated: PlagarismReport.txt\n";
+    cout << "Report generated: PlagarismReport.txt\n";
     
     return 0;
 }

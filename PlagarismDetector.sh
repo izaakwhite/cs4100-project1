@@ -15,6 +15,6 @@ done
 
 echo "Detecting Plagiarism, this may take a few minutes."
 # Run the C++ program with the generated tokens
-./cmos < tokens.txt
+./cmos < tokens.txt > PlagarismReport.txt
 echo "Done. Results stored in PlagarismReport.txt"
 make clean

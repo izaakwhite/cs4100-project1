@@ -1,5 +1,13 @@
 #!/bin/bash
-FILES=./Examples/*
+
+if [ -z "$1" ]; then
+  DIR="./Examples"
+else
+  DIR="$1"
+fi
+
+FILES="$DIR/*.c"
+
 rm -f tokens.txt
 make
 for f in $FILES
@@ -18,3 +26,5 @@ echo "Detecting Plagiarism, this may take a few minutes."
 ./cmos < tokens.txt > PlagarismReport.txt
 echo "Done. Results stored in PlagarismReport.txt"
 make clean
+rm -f scanner_out.txt
+rm -f tokens.txt

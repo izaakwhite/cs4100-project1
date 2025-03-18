@@ -35,6 +35,8 @@
 #define T_NUMBER       31
 #define T_STRING       32
 #define T_IDENTIFIER   33
+#define T_PRINTF       34
+#define T_SCANF        35
 %}
 
 /* Rules section */
@@ -74,6 +76,9 @@
 "*"                                            { fprintf(yyout, "%02d", T_TIMES); }
 "/"                                            { fprintf(yyout, "%02d", T_DIVIDE); }
 "%"                                            { fprintf(yyout, "%02d", T_MOD); }
+
+"printf"                                       { fprintf(yyout, "%02d", T_PRINTF); }
+"scanf"                                        { fprintf(yyout, "%02d", T_SCANF); }
 
 "&"[A-Za-z_][A-Za-z0-9_]*                      { fprintf(yyout, "%02d", T_ADDRESS); }
 "*"[A-Za-z_][A-Za-z0-9_]*                      { fprintf(yyout, "%02d", T_POINTER); }

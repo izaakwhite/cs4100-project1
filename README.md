@@ -3,14 +3,14 @@
 ## How to run
 
 ```bash
-./PlagarismDetector.sh
+./PlagiarismDetector.sh
 
 # OR (since we should pass in an arg but it defaults to example)
 
-./PlagarismDetector.sh Examples
+./PlagiarismDetector.sh Examples
 ```
 
-`make` and `make clean` are ran inside the PlagarismDetector.sh and writes the scores to a file called PlagarismReport.txt, it also removes the object files and temporary text files
+`make` and `make clean` are ran inside the PlagiarismDetector.sh and writes the scores to a file called PlagiarismReport.txt, it also removes the object files and temporary text files
 
 make sure flex is install properly on your machine, here I used <b>@pu3</b>
 aka the school prime machine
@@ -52,11 +52,11 @@ Once `CMOS.cpp` reads these lines, it performs the following operations:
    where \(A\) and \(B\) are the sets of fingerprints for the respective submissions.
 
 7. **Similarity Report**  
-   The similarity scores are sorted from highest to lowest and then written to `PlagarismReport.txt`. This allows you to see which pairs of submissions are most alike.
+   The similarity scores are sorted from highest to lowest and then written to `PlagiarismReport.txt`. This allows you to see which pairs of submissions are most alike.
 
 ---
 
-### Process Flow - Handled by PlagarismDetector.sh
+### Process Flow - Handled by PlagiarismDetector.sh
 
 1. **Token Generation (Bash + Lex)**  
    - A Bash script invokes the Lex-generated scanner on each `.c` file.  
@@ -65,10 +65,10 @@ Once `CMOS.cpp` reads these lines, it performs the following operations:
 2. **CMOS.cpp Execution**  
    - You run:  
      ```bash
-     ./cmos < tokens.txt > PlagarismReport.txt
+     ./cmos < tokens.txt > PlagiarismReport.txt
      ```  
    - `CMOS.cpp` reads and processes each line’s tokens, computes k‑mers, hashes, and fingerprints.
-   - Finally, it computes the similarity between all pairs of submissions and writes a sorted list of similarities to `PlagarismReport.txt`.
+   - Finally, it computes the similarity between all pairs of submissions and writes a sorted list of similarities to `PlagiarismReport.txt`.
 
 ---
 
@@ -79,7 +79,7 @@ Once `CMOS.cpp` reads these lines, it performs the following operations:
 
 ## Make
 
-Makes our lexxer (cmos.l -> scanner) and makes our Winnoning Algo (cmos.cpp -> cmos) for our bash script (PlagarismDetector.sh) 
+Makes our lexxer (cmos.l -> scanner) and makes our Winnoning Algo (cmos.cpp -> cmos) for our bash script (PlagiarismDetector.sh) 
 </br>
 </br>
 <b>NOTE:</b> uses c++ 17 for file system library

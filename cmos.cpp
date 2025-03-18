@@ -14,34 +14,42 @@ using namespace std;
 const int K = 4; // k-mer length
 const int W = 5; // window size for winnowing
 
-// --- Helper functions ---
-
-// Generate overlapping k-mers from a token string.
-vector<string> getKmers(const string &tokens, int k) {
+/*                */
+//Helper functions//
+/*                */
+vector<string> getKmers(const string &tokens, const int k) {
+    
+    //init kmers vector
     vector<string> kmers;
-    if (tokens.size() < static_cast<size_t>(k))
+
+    //if the input string tokens is less than k just return the initalized kmers vector
+    if (tokens.size() < k) {
         return kmers;
-    for (size_t i = 0; i <= tokens.size() - k; i++) {
+    }
+
+    // add kmers to the kmers vector
+    for (int i = 0; i <= tokens.size() - k; i++) {
         kmers.push_back(tokens.substr(i, k));
     }
     return kmers;
 }
 
-// Simple hash function using std::hash.
+// Simple hash function for kmer string
 size_t hashKmer(const string &kmer) {
     static hash<string> hasher;
     return hasher(kmer);
 }
 
-// Compute fingerprints using a sliding window (winnowing).
-// For each window of W hashed k-mers, choose the minimum hash value.
-vector<size_t> computeFingerprints(const vector<size_t>& hashes, int w) {
+
+vector<size_t> computeFingerprints(const vector<size_t>& hashes, const int w) {
     vector<size_t> fingerprints;
-    if (hashes.size() < static_cast<size_t>(w))
+    if (hashes.size() < w) {
         return fingerprints;
-    for (size_t i = 0; i <= hashes.size() - w; i++) {
-        size_t minVal = hashes[i];
-        for (size_t j = i; j < i + w; j++) {
+    }
+
+    for (int i = 0; i <= hashes.size() - w; i++) {
+        int minVal = hashes[i];
+        for (int j = i; j < i + w; j++) {
             if (hashes[j] < minVal) {
                 minVal = hashes[j];
             }

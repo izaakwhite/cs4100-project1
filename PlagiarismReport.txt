@@ -1,5 +1,6 @@
-Report generated: PlagarismReport.txt
-lls_53.c and bills_54.c: 1
+Similarity Report
+-----------------
+bills_53.c and bills_54.c: 1
 bills_03.c and bills_09.c: 1
 bills_03.c and bills_53.c: 1
 bills_03.c and bills_54.c: 1

@@ -42,46 +42,46 @@
 "//".*                                         { /* Skip single-line comments */ }
 "/*"(.|\n)*?"*/"                               { /* Skip multi-line comments */ }
 
-"#include"                                     { fprintf(yyout, "%03d", T_INCLUDE); }
-"<"[^>]*">"                                    { fprintf(yyout, "%03d", T_HEADER); }
+"#include"                                     { fprintf(yyout, "%02d", T_INCLUDE); }
+"<"[^>]*">"                                    { fprintf(yyout, "%02d", T_HEADER); }
 
-"void"                                         { fprintf(yyout, "%03d", T_VOID); }
-"int"                                          { fprintf(yyout, "%03d", T_INT); }
-"char"                                         { fprintf(yyout, "%03d", T_CHAR); }
-"return"                                       { fprintf(yyout, "%03d", T_RETURN); }
-"do"                                           { fprintf(yyout, "%03d", T_DO); }
-"while"                                        { fprintf(yyout, "%03d", T_WHILE); }
-"if"                                           { fprintf(yyout, "%03d", T_IF); }
-"else"                                         { fprintf(yyout, "%03d", T_ELSE); }
+"void"                                         { fprintf(yyout, "%02d", T_VOID); }
+"int"                                          { fprintf(yyout, "%02d", T_INT); }
+"char"                                         { fprintf(yyout, "%02d", T_CHAR); }
+"return"                                       { fprintf(yyout, "%02d", T_RETURN); }
+"do"                                           { fprintf(yyout, "%02d", T_DO); }
+"while"                                        { fprintf(yyout, "%02d", T_WHILE); }
+"if"                                           { fprintf(yyout, "%02d", T_IF); }
+"else"                                         { fprintf(yyout, "%02d", T_ELSE); }
 
-"("                                            { fprintf(yyout, "%03d", T_LPAREN); }
-")"                                            { fprintf(yyout, "%03d", T_RPAREN); }
-"{"                                            { fprintf(yyout, "%03d", T_LBRACE); }
-"}"                                            { fprintf(yyout, "%03d", T_RBRACE); }
-","                                            { fprintf(yyout, "%03d", T_COMMA); }
-";"                                            { fprintf(yyout, "%03d", T_SEMICOLON); }
+"("                                            { fprintf(yyout, "%02d", T_LPAREN); }
+")"                                            { fprintf(yyout, "%02d", T_RPAREN); }
+"{"                                            { fprintf(yyout, "%02d", T_LBRACE); }
+"}"                                            { fprintf(yyout, "%02d", T_RBRACE); }
+","                                            { fprintf(yyout, "%02d", T_COMMA); }
+";"                                            { fprintf(yyout, "%02d", T_SEMICOLON); }
 
-"=="                                           { fprintf(yyout, "%03d", T_EQ); }
-"!="                                           { fprintf(yyout, "%03d", T_NE); }
-"<="                                           { fprintf(yyout, "%03d", T_LE); }
-">="                                           { fprintf(yyout, "%03d", T_GE); }
-"<"                                            { fprintf(yyout, "%03d", T_LT); }
-">"                                            { fprintf(yyout, "%03d", T_GT); }
-"="                                            { fprintf(yyout, "%03d", T_ASSIGN); }
+"=="                                           { fprintf(yyout, "%02d", T_EQ); }
+"!="                                           { fprintf(yyout, "%02d", T_NE); }
+"<="                                           { fprintf(yyout, "%02d", T_LE); }
+">="                                           { fprintf(yyout, "%02d", T_GE); }
+"<"                                            { fprintf(yyout, "%02d", T_LT); }
+">"                                            { fprintf(yyout, "%02d", T_GT); }
+"="                                            { fprintf(yyout, "%02d", T_ASSIGN); }
 
-"+"                                            { fprintf(yyout, "%03d", T_PLUS); }
-"-"                                            { fprintf(yyout, "%03d", T_MINUS); }
-"*"                                            { fprintf(yyout, "%03d", T_TIMES); }
-"/"                                            { fprintf(yyout, "%03d", T_DIVIDE); }
-"%"                                            { fprintf(yyout, "%03d", T_MOD); }
+"+"                                            { fprintf(yyout, "%02d", T_PLUS); }
+"-"                                            { fprintf(yyout, "%02d", T_MINUS); }
+"*"                                            { fprintf(yyout, "%02d", T_TIMES); }
+"/"                                            { fprintf(yyout, "%02d", T_DIVIDE); }
+"%"                                            { fprintf(yyout, "%02d", T_MOD); }
 
-"&"[A-Za-z_][A-Za-z0-9_]*                      { fprintf(yyout, "%03d", T_ADDRESS); }
-"*"[A-Za-z_][A-Za-z0-9_]*                      { fprintf(yyout, "%03d", T_POINTER); }
+"&"[A-Za-z_][A-Za-z0-9_]*                      { fprintf(yyout, "%02d", T_ADDRESS); }
+"*"[A-Za-z_][A-Za-z0-9_]*                      { fprintf(yyout, "%02d", T_POINTER); }
 
-[0-9]+                                         { fprintf(yyout, "%03d", T_NUMBER); }
-\"([^\\\n]|(\\.))*?\"                          { fprintf(yyout, "%03d", T_STRING); }
+[0-9]+                                         { fprintf(yyout, "%02d", T_NUMBER); }
+\"([^\\\n]|(\\.))*?\"                          { fprintf(yyout, "%02d", T_STRING); }
 
-[A-Za-z_][A-Za-z0-9_]*                         { fprintf(yyout, "%03d", T_IDENTIFIER); }
+[A-Za-z_][A-Za-z0-9_]*                         { fprintf(yyout, "%02d", T_IDENTIFIER); }
 [ \t\n]+                                       { /* Ignore whitespace */ }
 .                                              { /* Optionally ignore unknown characters */ }
 %%

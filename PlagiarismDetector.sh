@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Izaak White and Joshua Moner
 if [ -z "$1" ]; then
   DIR="./Examples"
 else

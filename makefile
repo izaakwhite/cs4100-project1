@@ -1,5 +1,5 @@
 # Makefile for CMOS project
-
+# Izaak White & Joshua Moner
 CC = g++
 LEX = flex
 CFLAGS = -std=c++17

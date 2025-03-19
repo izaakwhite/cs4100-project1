@@ -1,3 +1,6 @@
+/*
+ * Izaak White & Joshua Moner
+ */
 %{
 #include <stdio.h>
 
